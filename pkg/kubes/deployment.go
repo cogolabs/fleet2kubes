@@ -48,14 +48,14 @@ type Option struct {
 	Value string `json:"value"`
 }
 
-func NewDeployment(name, image string, command []string, port int) *Deployment {
+func NewDeployment(name, image string, command []string, replicas, port int) *Deployment {
 	deploy := &Deployment{
 		APIVersion: "apps/v1",
 		Kind:       "Deployment",
 	}
 	deploy.Metadata.Name = name
 	deploy.Metadata.Labels.App = name
-	deploy.Spec.Replicas = 1
+	deploy.Spec.Replicas = replicas
 	deploy.Spec.Selector.MatchLabels.App = name
 	deploy.Spec.Template.Metadata.Labels.App = name
 	deploy.Spec.Template.Spec.DNSConfig.Options = append(

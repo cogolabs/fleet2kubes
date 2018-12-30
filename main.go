@@ -16,8 +16,9 @@ import (
 )
 
 var (
-	port = flag.Int("port", 80, "")
-	vlan = flag.String("vlan", "16", "")
+	port     = flag.Int("port", 80, "expose this port")
+	replicas = flag.Int("n", 2, "replicas")
+	vlan     = flag.String("vlan", "16", "import address from this interface")
 )
 
 func init() {
@@ -47,7 +48,7 @@ func do(filename string, output io.Writer) error {
 	ip = strings.Split(ip, "/")[0]
 
 	svc := kubes.NewService(name, ip, *port)
-	dpl := kubes.NewDeployment(name, u.RunImage, u.RunCommand, *port)
+	dpl := kubes.NewDeployment(name, u.RunImage, u.RunCommand, *replicas, *port)
 
 	err = yaml.NewEncoder(output).Encode(svc)
 	if err != nil {

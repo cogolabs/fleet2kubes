@@ -4,8 +4,8 @@
 
 # fleet2kubes
 
-Convert fleet `.service` files to kubes deployment + service. Mostly only works for generic web services right now.
+Convert fleet `.service` files to kubes deployment + service.
 
-## TODO
-- `.timer`s
+Mostly works for generic web services -- does not yet handle:
+- `.timer`s => cron jobs
 - docker flags eg. environ, privilege
