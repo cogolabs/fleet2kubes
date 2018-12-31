@@ -6,6 +6,12 @@
 
 Convert fleet `.service` files to kubes deployment + service.
 
+## Background
+
+Cogo Labs adopted Docker early in 2014 and leveraged CoreOS Fleet to deploy and manage a rich distributed microservices platform. Kubernetes, based on Google's internal manager, Borg, matured to production-ready quality in 2018, and has fully absorbed CoreOS Fleet technologies, such as Etcd: the Kubernetes Control Plane, into an awesome ecosystem now led by the CNCF. This minimal glue automates parts of our Kubernetes migration.
+
+## Caveats
+
 Mostly works for generic web services -- does not yet handle:
 - `.timer`s => cron jobs
 - docker flags eg. environ, privilege

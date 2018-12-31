@@ -68,6 +68,5 @@ func TestYAML(t *testing.T) {
 	err = yaml.NewEncoder(output).Encode(dpl)
 	assert.NoError(t, err)
 
-	fmt.Println(output.String())
 	assert.Equal(t, expected, output.String())
 }

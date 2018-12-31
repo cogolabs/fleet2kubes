@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func (u *Unit) Validate() error {
+func (u *Unit) ValidateAll() error {
 	if err := u.ValidateKeys(); err != nil {
 		return err
 	}

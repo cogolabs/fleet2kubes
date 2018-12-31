@@ -24,5 +24,9 @@ Conflicts=test2.*`
 func Test1(t *testing.T) {
 	u, err := NewUnit(test1)
 	assert.NoError(t, err)
-	assert.NoError(t, u.Validate())
+	assert.NoError(t, u.ValidateAll())
+	assert.NoError(t, u.ValidateKeys())
+	assert.NoError(t, u.ValidateExecStart())
+	assert.NoError(t, u.ValidateExecStartPre())
+	assert.NoError(t, u.ValidateExecStartPost())
 }

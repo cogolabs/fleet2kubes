@@ -1,8 +1,6 @@
 package unit
 
 import (
-	"strings"
-
 	unit "github.com/cogolabs/fleet2kubes/pkg/fleet-unit"
 )
 
@@ -38,16 +36,4 @@ func (u *Unit) FirstValue(section, name string) string {
 		return ""
 	}
 	return values[0]
-}
-
-func (u *Unit) IsGlobal() bool {
-	return u.FirstValue("X-Fleet", "Global") == "true"
-}
-
-func (u *Unit) ServiceType() string {
-	t := strings.ToLower(u.FirstValue("Service", "Type"))
-	if t == "" {
-		return "simple"
-	}
-	return t
 }
