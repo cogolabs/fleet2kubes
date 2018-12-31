@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test2(t *testing.T) {
+func TestDo(t *testing.T) {
 	actual := bytes.NewBufferString("")
 	err := do("test2.service", actual)
 	assert.NoError(t, err)
