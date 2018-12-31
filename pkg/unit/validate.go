@@ -6,16 +6,16 @@ import (
 )
 
 func (u *Unit) Validate() error {
-	if err := u.ValidateKeys(); err == nil {
+	if err := u.ValidateKeys(); err != nil {
 		return err
 	}
-	if err := u.ValidateExecStartPre(); err == nil {
+	if err := u.ValidateExecStartPre(); err != nil {
 		return err
 	}
-	if err := u.ValidateExecStart(); err == nil {
+	if err := u.ValidateExecStart(); err != nil {
 		return err
 	}
-	if err := u.ValidateExecStartPost(); err == nil {
+	if err := u.ValidateExecStartPost(); err != nil {
 		return err
 	}
 	return nil

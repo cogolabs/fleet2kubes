@@ -65,7 +65,7 @@ func do(filename string, output io.Writer) error {
 
 func main() {
 	if len(flag.Args()) != 1 {
-		fmt.Printf("usage: %s <legacy.service>", os.Args[0])
+		fmt.Printf("Usage: %s [flags] <legacy.service>", os.Args[0])
 		os.Exit(1)
 		return
 	}
