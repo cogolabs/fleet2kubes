@@ -68,7 +68,7 @@ func NewDeployment(name, image string, command []string, replicas, port int) *De
 			Name:    name,
 			Image:   image,
 			Command: command,
-			Ports:   []Port{Port{port}},
+			Ports:   []Port{{port}},
 		},
 	)
 	return deploy

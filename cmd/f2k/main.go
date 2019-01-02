@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 
 	yaml "gopkg.in/yaml.v2"
@@ -26,8 +27,6 @@ func init() {
 }
 
 func do(filename string, output io.Writer) error {
-	name := strings.Split(filename, ".service")[0]
-
 	raw, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return err
@@ -47,6 +46,7 @@ func do(filename string, output io.Writer) error {
 	}
 	ip = strings.Split(ip, "/")[0]
 
+	name := filepath.Base(strings.Split(filename, ".service")[0])
 	svc := kubes.NewService(name, ip, *port)
 	dpl := kubes.NewDeployment(name, u.RunImage, u.RunCommand, *replicas, *port)
 
