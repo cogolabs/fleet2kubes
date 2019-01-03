@@ -42,3 +42,8 @@ spec:
         command: []
         ports:
         - containerPort: 80
+        env:
+        - name: var1
+          value: val1
+        - name: var2
+          value: val2

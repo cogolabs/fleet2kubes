@@ -55,12 +55,15 @@ spec:
         - :80
         ports:
         - containerPort: 80
+        env:
+        - name: FOO
+          value: BAR
 `
 
 func TestYAML(t *testing.T) {
 	output := bytes.NewBufferString("")
 	svc := NewService("test1", "1.2.3.4", 80)
-	dpl := NewDeployment("test1", "httpd", []string{"httpd", "-listen", ":80"}, 2, 80)
+	dpl := NewDeployment("test1", "httpd", []string{"httpd", "-listen", ":80"}, 2, 80, map[string]string{"FOO": "BAR"})
 
 	err := yaml.NewEncoder(output).Encode(svc)
 	assert.NoError(t, err)
