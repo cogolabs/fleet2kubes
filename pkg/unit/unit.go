@@ -14,6 +14,8 @@ type Unit struct {
 	Network map[string]string
 
 	Macros map[string]string
+
+	Env map[string]string
 }
 
 func NewUnit(raw string) (*Unit, error) {
@@ -23,7 +25,7 @@ func NewUnit(raw string) (*Unit, error) {
 	}
 	u := &Unit{UnitFile: uf}
 	u.Network = u.parseNetwork()
-	u.RunImage, u.RunCommand, u.RunFlags = u.parseExecStart()
+	u.RunImage, u.RunCommand, u.RunFlags, u.Env = u.parseExecStart()
 	return u, nil
 }
 

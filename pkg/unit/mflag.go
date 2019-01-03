@@ -22,8 +22,9 @@ var ErrRetry = errors.New("flag: retry")
 type FlagSet struct {
 	parsed bool
 	actual map[string]string
-	args   []string  // arguments after flags
-	output io.Writer // nil means stderr; use Out() accessor
+	args   []string          // arguments after flags
+	output io.Writer         // nil means stderr; use Out() accessor
+	env    map[string]string // enviornment variables specified with -e
 }
 
 func trimQuotes(str string) string {
@@ -104,7 +105,18 @@ func (f *FlagSet) parseOne() (bool, string, error) {
 			value, f.args = f.args[0], f.args[1:]
 		}
 	}
-	f.actual[name] = value
+
+	// Store environment variables separately
+	if name == "e" || name == "-env" {
+		if i := strings.Index(value, "="); i == -1 {
+			f.env[value] = ""
+		} else {
+			f.env[value[:i]] = value[i+1:]
+		}
+	} else {
+		f.actual[name] = value
+	}
+
 	return true, "", nil
 }
 
@@ -116,6 +128,7 @@ func (f *FlagSet) Parse(arguments []string) error {
 	f.parsed = true
 	f.args = arguments
 	f.actual = map[string]string{}
+	f.env = map[string]string{}
 	for {
 		seen, name, err := f.parseOne()
 		if seen {
@@ -158,4 +171,8 @@ func (f *FlagSet) Args() []string {
 
 func (f *FlagSet) Values() map[string]string {
 	return f.actual
+}
+
+func (f *FlagSet) Env() map[string]string {
+	return f.env
 }

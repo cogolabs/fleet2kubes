@@ -37,6 +37,7 @@ type Container struct {
 	Image   string   `json:"image"`
 	Command []string `json:"command"`
 	Ports   []Port   `json:"ports"`
+	Env     Env      `json:"env"`
 }
 
 type Port struct {
@@ -48,7 +49,18 @@ type Option struct {
 	Value string `json:"value"`
 }
 
-func NewDeployment(name, image string, command []string, replicas, port int) *Deployment {
+type Env []Option
+
+func newEnv(envMap map[string]string) Env {
+	var env Env
+	for name, val := range envMap {
+		env = append(env, Option{Name: name, Value: val})
+	}
+
+	return env
+}
+
+func NewDeployment(name, image string, command []string, replicas, port int, env map[string]string) *Deployment {
 	deploy := &Deployment{
 		APIVersion: "apps/v1",
 		Kind:       "Deployment",
@@ -69,6 +81,7 @@ func NewDeployment(name, image string, command []string, replicas, port int) *De
 			Image:   image,
 			Command: command,
 			Ports:   []Port{{port}},
+			Env:     newEnv(env),
 		},
 	)
 	return deploy

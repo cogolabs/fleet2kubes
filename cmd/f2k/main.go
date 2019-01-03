@@ -58,7 +58,7 @@ func do(filename string, output io.Writer) error {
 
 	fmt.Fprint(output, "---\n")
 	err = yaml.NewEncoder(output).Encode(
-		kubes.NewDeployment(name, u.RunImage, u.RunCommand, *replicas, *port),
+		kubes.NewDeployment(name, u.RunImage, u.RunCommand, *replicas, *port, u.Env),
 	)
 	if err != nil {
 		return err

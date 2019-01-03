@@ -6,12 +6,12 @@ import (
 	"github.com/labstack/gommon/log"
 )
 
-func (u *Unit) parseExecStart() (string, []string, map[string]string) {
+func (u *Unit) parseExecStart() (string, []string, map[string]string, map[string]string) {
 	v := u.FirstValue("Service", "ExecStart")
 	f := &FlagSet{}
 	g := strings.Split(v, "docker run ")
 	if len(g) <= 1 {
-		return "", nil, nil
+		return "", nil, nil, nil
 	}
 	argv := g[1]
 	for strings.Contains(argv, "\t") {
@@ -23,17 +23,17 @@ func (u *Unit) parseExecStart() (string, []string, map[string]string) {
 	err := f.Parse(strings.Split(argv, " "))
 	if err != nil {
 		log.Warn(err)
-		return "", nil, nil
+		return "", nil, nil, nil
 	}
 	args := f.Args()
 	if len(args) < 1 {
-		return "", nil, nil
+		return "", nil, nil, nil
 	}
 	s := args[0]
 	if !strings.Contains(s, ":") {
 		s += ":latest"
 	}
-	return s, args[1:], f.Values()
+	return s, args[1:], f.Values(), f.Env()
 }
 
 func (u *Unit) parseNetwork() map[string]string {
