@@ -41,21 +41,25 @@ func do(filename string, output io.Writer) error {
 	if ip == "" {
 		ip = u.Network["br"+*vlan]
 	}
-	if ip == "" {
-		return fmt.Errorf("unknown IP: %+v", u.Network)
-	}
 	ip = strings.Split(ip, "/")[0]
 
 	name := filepath.Base(strings.Split(filename, ".service")[0])
-	svc := kubes.NewService(name, ip, *port)
-	dpl := kubes.NewDeployment(name, u.RunImage, u.RunCommand, *replicas, *port)
+	name = strings.Replace(name, ".", "-", -1)
 
-	err = yaml.NewEncoder(output).Encode(svc)
-	if err != nil {
-		return err
+	if ip != "" {
+		fmt.Fprint(output, "---\n")
+		err = yaml.NewEncoder(output).Encode(
+			kubes.NewService(name, ip, *port),
+		)
+		if err != nil {
+			return err
+		}
 	}
+
 	fmt.Fprint(output, "---\n")
-	err = yaml.NewEncoder(output).Encode(dpl)
+	err = yaml.NewEncoder(output).Encode(
+		kubes.NewDeployment(name, u.RunImage, u.RunCommand, *replicas, *port),
+	)
 	if err != nil {
 		return err
 	}
