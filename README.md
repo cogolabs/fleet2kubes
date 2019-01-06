@@ -11,7 +11,12 @@ Converts fleet systemd units to kubernetes resources.
 
 Cogo Labs adopted Docker early in 2014 and leveraged CoreOS Fleet to deploy and manage a rich distributed microservices platform. Kubernetes, based on Google's internal manager, Borg, matured to production-ready quality in 2018, and has fully absorbed CoreOS Fleet technologies, such as `etcd` (backend for the Kubernetes Control Plane), into an awesome ecosystem now led by the CNCF. This minimal glue automates parts of our Kubernetes migration.
 
-## Caveats
+## Install and Usage
 
-While it works well for generic pipework-based web services, does not yet handle:
-- most docker flags eg. privilege
+The first command will install `f2k` to `~/go/bin/f2k`. For convenience, append `$GOPATH/bin` to your `$PATH`.
+
+```
+  go get -u github.com/cogolabs/fleet2kubes/cmd/f2k
+
+  f2k [flags] my.service > my.yaml
+```
