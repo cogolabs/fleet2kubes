@@ -26,7 +26,65 @@ func init() {
 	flag.Parse()
 }
 
+func doDeployService(name string, u *unit.Unit, output io.Writer) error {
+	ip := u.Network["bond0."+*vlan]
+	if ip == "" {
+		ip = u.Network["br"+*vlan]
+	}
+
+	ip = strings.Split(ip, "/")[0]
+	if ip != "" {
+		fmt.Fprint(output, "---\n")
+		if err := yaml.NewEncoder(output).Encode(kubes.NewService(name, ip, *port)); err != nil {
+			return err
+		}
+	}
+
+	fmt.Fprint(output, "---\n")
+	err := yaml.NewEncoder(output).Encode(
+		kubes.NewDeployment(name, u.RunImage, u.RunCommand, *replicas, *port, u.Env),
+	)
+	return err
+}
+
+func doCronJob(filename, name string, u *unit.Unit, output io.Writer) error {
+	raw, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return err
+	}
+
+	timer, err := unit.NewUnit(string(raw))
+	if err != nil {
+		return err
+	}
+
+	schedule := timer.Contents["Timer"]["OnCalendar"][0]
+	annotations := kubes.Annotations{}
+	if unit, ok := timer.Contents["Unit"]; ok {
+		if description, ok := unit["Description"]; ok {
+			annotations["description"] = description[0]
+		}
+		if documentation, ok := unit["Documentation"]; ok {
+			annotations["documentation"] = documentation[0]
+		}
+	}
+
+	fmt.Fprintf(output, "---\n")
+	err = yaml.NewEncoder(output).Encode(
+		kubes.NewCronJob(name, schedule, u.RunImage, u.RunCommand, u.Env, annotations),
+	)
+	return err
+}
+
 func do(filename string, output io.Writer) error {
+	basename := filename
+	ext := filepath.Ext(filename)
+	if ext == "" {
+		filename += ".service"
+	} else {
+		basename = basename[:len(basename)-len(ext)]
+	}
+
 	raw, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return err
@@ -37,34 +95,15 @@ func do(filename string, output io.Writer) error {
 		return err
 	}
 
-	ip := u.Network["bond0."+*vlan]
-	if ip == "" {
-		ip = u.Network["br"+*vlan]
-	}
-	ip = strings.Split(ip, "/")[0]
-
 	name := filepath.Base(strings.Split(filename, ".service")[0])
 	name = strings.Replace(name, ".", "-", -1)
 
-	if ip != "" {
-		fmt.Fprint(output, "---\n")
-		err = yaml.NewEncoder(output).Encode(
-			kubes.NewService(name, ip, *port),
-		)
-		if err != nil {
-			return err
-		}
+	timerFname := filename[:len(filename)-len(filepath.Ext(filename))] + ".timer"
+	if _, err := os.Stat(timerFname); os.IsNotExist(err) {
+		return doDeployService(name, u, output)
 	}
 
-	fmt.Fprint(output, "---\n")
-	err = yaml.NewEncoder(output).Encode(
-		kubes.NewDeployment(name, u.RunImage, u.RunCommand, *replicas, *port, u.Env),
-	)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return doCronJob(timerFname, name, u, output)
 }
 
 func main() {

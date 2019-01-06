@@ -14,5 +14,4 @@ Cogo Labs adopted Docker early in 2014 and leveraged CoreOS Fleet to deploy and 
 ## Caveats
 
 While it works well for generic pipework-based web services, does not yet handle:
-- `.timer`s => cron jobs
-- docker flags eg. environ, privilege
+- most docker flags eg. privilege

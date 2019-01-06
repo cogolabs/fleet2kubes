@@ -1,0 +1,21 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: test4
+  annotations:
+    description: Test timer
+    documentation: https://git.colofoo.net/fleet/test4
+spec:
+  schedule: 0 6 * * *
+  jobTemplate:
+    spec:
+      template:
+        containers:
+        - name: test4
+          image: registry/dev/test4:latest
+          command: []
+          env:
+          - name: var3
+            value: val3
+          restartPolicy: OnFailure
