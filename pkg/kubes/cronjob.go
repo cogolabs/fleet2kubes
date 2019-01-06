@@ -77,7 +77,7 @@ func parseSchedule(schedule string) string {
 	return strings.Join(append([]string{}, minute, hour, dayOfMonth, month, dayOfWeek), " ")
 }
 
-func NewCronJob(name, schedule, image string, command []string, annotations Annotations) *CronJob {
+func NewCronJob(name, schedule, image string, command []string, env map[string]string, annotations Annotations) *CronJob {
 	cronJob := &CronJob{
 		APIVersion: "batch/v1beta1",
 		Kind:       "CronJob",

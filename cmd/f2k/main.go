@@ -71,7 +71,7 @@ func doCronJob(filename, name string, u *unit.Unit, output io.Writer) error {
 
 	fmt.Fprintf(output, "---\n")
 	err = yaml.NewEncoder(output).Encode(
-		kubes.NewCronJob(name, schedule, u.RunImage, u.RunCommand, annotations),
+		kubes.NewCronJob(name, schedule, u.RunImage, u.RunCommand, u.Env, annotations),
 	)
 	return err
 }
