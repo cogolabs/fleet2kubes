@@ -73,16 +73,17 @@ spec:
   jobTemplate:
     spec:
       template:
-        containers:
-        - name: test3
-          image: cleanup
-          command:
-          - /bin/cleanup
-          - -f
-          env:
-          - name: FOO
-            value: BAR
+        spec:
           restartPolicy: OnFailure
+          containers:
+          - name: test3
+            image: cleanup
+            command:
+            - /bin/cleanup
+            - -f
+            env:
+            - name: FOO
+              value: BAR
 `
 )
 
