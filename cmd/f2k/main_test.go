@@ -20,6 +20,7 @@ func TestDeployService(t *testing.T) {
 }
 
 func TestCronJob(t *testing.T) {
+	*name = ""
 	actual := bytes.NewBufferString("")
 	err := do("test4.service", actual)
 	assert.NoError(t, err)
