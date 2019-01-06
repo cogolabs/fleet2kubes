@@ -21,10 +21,10 @@ func TestDeployService(t *testing.T) {
 
 func TestCronJob(t *testing.T) {
 	actual := bytes.NewBufferString("")
-	err := do("test3.service", actual)
+	err := do("test4.service", actual)
 	assert.NoError(t, err)
 
-	expected, err := ioutil.ReadFile("test3.yaml")
+	expected, err := ioutil.ReadFile("test4.yaml")
 	assert.NoError(t, err)
 
 	assert.Equal(t, string(expected), actual.String())

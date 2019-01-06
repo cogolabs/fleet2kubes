@@ -1,9 +1,9 @@
 [Service]
 Restart=always
-ExecStartPre=-/bin/docker pull registry/dev/test2
+ExecStartPre=-/bin/docker pull registry/dev/test4
 ExecStartPre=-/bin/docker kill %p
 ExecStartPre=-/bin/docker rm %p
-ExecStart=/bin/docker run --rm -e var1=val1 --env var2=val2 --name=%p registry/dev/test2
+ExecStart=/bin/docker run --rm -e var3=val3 --name=%p registry/dev/test4
 ExecStartPost=/bin/pipework bond0 %p 2.2.2.2/19@172.16.0.1 @16
 ExecStop=/bin/docker kill %p
 ExecStartPost=/bin/bash -c "sleep 3; nsenter -n -t $(docker inspect -f '{{.State.Pid}}' %p) -- ping -c 3 1.1.1.1"

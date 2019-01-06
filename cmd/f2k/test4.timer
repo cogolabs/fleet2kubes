@@ -1,6 +1,6 @@
 [Unit]
 Description=Test timer
-Documentation=https://git.colofoo.net/fleet/test
+Documentation=https://git.colofoo.net/fleet/test4
 
 [Timer]
 OnCalendar=*-*-* 6:00:00

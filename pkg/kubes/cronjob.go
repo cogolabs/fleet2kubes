@@ -33,7 +33,7 @@ type CronJob struct {
 					Containers []Container `json:"containers"`
 				} `json:"template"`
 			} `json:"spec"`
-		} `json:"jobTemplate"`
+		} `json:"jobTemplate" yaml:"jobTemplate"`
 	} `json:"spec"`
 }
 
@@ -91,6 +91,7 @@ func NewCronJob(name, schedule, image string, command []string, env map[string]s
 			Name:          name,
 			Image:         image,
 			Command:       command,
+			Env:           newEnv(env),
 			RestartPolicy: "OnFailure",
 		},
 	)
