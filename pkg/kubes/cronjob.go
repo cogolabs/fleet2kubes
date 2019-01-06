@@ -27,11 +27,14 @@ type CronJob struct {
 	} `json:"metadata"`
 	Spec struct {
 		ConcurrencyPolicy string `json:"concurrencyPolicy" yaml:"concurrencyPolicy"`
-		Schedule    string `json:"string"`
-		JobTemplate struct {
+		Schedule          string `json:"string"`
+		JobTemplate       struct {
 			Spec struct {
 				Template struct {
-					Containers []Container `json:"containers"`
+					Spec struct {
+						RestartPolicy string      `json:"restartPolicy" yaml:"restartPolicy"`
+						Containers    []Container `json:"containers"`
+					}
 				} `json:"template"`
 			} `json:"spec"`
 		} `json:"jobTemplate" yaml:"jobTemplate"`
@@ -87,15 +90,16 @@ func NewCronJob(name, schedule, image string, command []string, env map[string]s
 	cronJob.Metadata.Annotations = annotations
 	cronJob.Spec.ConcurrencyPolicy = "Forbid"
 	cronJob.Spec.Schedule = parseSchedule(schedule)
-	cronJob.Spec.JobTemplate.Spec.Template.Containers = append(
-		cronJob.Spec.JobTemplate.Spec.Template.Containers,
+	cronJob.Spec.JobTemplate.Spec.Template.Spec.Containers = append(
+		cronJob.Spec.JobTemplate.Spec.Template.Spec.Containers,
 		Container{
-			Name:          name,
-			Image:         image,
-			Command:       command,
-			Env:           newEnv(env),
-			RestartPolicy: "OnFailure",
+			Name:    name,
+			Image:   image,
+			Command: command,
+			Env:     newEnv(env),
 		},
 	)
+	cronJob.Spec.JobTemplate.Spec.Template.Spec.RestartPolicy = "OnFailure"
+
 	return cronJob
 }
