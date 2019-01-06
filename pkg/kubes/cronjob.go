@@ -26,6 +26,7 @@ type CronJob struct {
 		Annotations Annotations `json:"annotations" yaml:"annotations,omitempty"`
 	} `json:"metadata"`
 	Spec struct {
+		ConcurrencyPolicy string `json:"concurrencyPolicy" yaml:"concurrencyPolicy"`
 		Schedule    string `json:"string"`
 		JobTemplate struct {
 			Spec struct {
@@ -84,6 +85,7 @@ func NewCronJob(name, schedule, image string, command []string, env map[string]s
 	}
 	cronJob.Metadata.Name = name
 	cronJob.Metadata.Annotations = annotations
+	cronJob.Spec.ConcurrencyPolicy = "Forbid"
 	cronJob.Spec.Schedule = parseSchedule(schedule)
 	cronJob.Spec.JobTemplate.Spec.Template.Containers = append(
 		cronJob.Spec.JobTemplate.Spec.Template.Containers,

@@ -68,6 +68,7 @@ metadata:
     description: A test cron job
     documentation: http://git.colofoo.net/fleet/test3
 spec:
+  concurrencyPolicy: Forbid
   schedule: '* 7 * 1 *'
   jobTemplate:
     spec:
