@@ -2,18 +2,6 @@
 
 
 [[projects]]
-  digest = "1:9f282bdbdcea02c75d794ce8ebb16f2947d9c34640475f6a10de062f62ce1870"
-  name = "github.com/coreos/fleet"
-  packages = [
-    "log",
-    "pkg",
-    "protobuf",
-  ]
-  pruneopts = "UT"
-  revision = "b8127afc06e3e41089a7fc9c3d7d80c9925f4dab"
-  version = "v1.0.0"
-
-[[projects]]
   digest = "1:027c348e13b5f924c925aebf0d2932545644c78da3f43cc82327220286084539"
   name = "github.com/coreos/go-systemd"
   packages = ["unit"]
@@ -28,32 +16,6 @@
   pruneopts = "UT"
   revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
   version = "v1.1.1"
-
-[[projects]]
-  digest = "1:78ad1df2504caaf39f3157d1a48955542dfd7819c7c9f20e5e5d654063af31e1"
-  name = "github.com/gogo/protobuf"
-  packages = [
-    "gogoproto",
-    "proto",
-    "protoc-gen-gogo/descriptor",
-  ]
-  pruneopts = "UT"
-  revision = "8d70fb3182befc465c4a1eac8ad4d38ff49778e2"
-
-[[projects]]
-  digest = "1:97df918963298c287643883209a2c3f642e6593379f97ab400c2a2e219ab647d"
-  name = "github.com/golang/protobuf"
-  packages = ["proto"]
-  pruneopts = "UT"
-  revision = "aa810b61a9c79d51363740d207bb46cf8e620ed5"
-  version = "v1.2.0"
-
-[[projects]]
-  digest = "1:9bc7dca517b62ed4c6f705d05deb3ba2710f20adb250d3cd9f6b5360f50fa629"
-  name = "github.com/jonboulle/clockwork"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "bcac9884e7502bb2b474c0339d889cb981a2f27f"
 
 [[projects]]
   digest = "1:01eb0269028d3c2e21b5b6cd9b1ba81bc4170ab293fcffa84e3aa3a6138a92e8"
@@ -115,43 +77,12 @@
   revision = "dcecefd839c4193db0d35b88ec65b4c12d360ab0"
 
 [[projects]]
-  digest = "1:8b1c3bdc3339b50ae60a9e81aefc901c91476f2e43248462a8d4ba2b2a05fc0e"
-  name = "golang.org/x/net"
-  packages = [
-    "context",
-    "http2",
-    "http2/hpack",
-    "internal/timeseries",
-    "trace",
-  ]
-  pruneopts = "UT"
-  revision = "6acef71eb69611914f7a30939ea9f6e194c78172"
-
-[[projects]]
   branch = "master"
   digest = "1:5b7594f7c43cb5fc8f31c3f4a9f6a61ee798dbd5fcb36b70cb3d4780aad4c509"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = "UT"
   revision = "9a3f9b0469bbc6b8802087ae5c0af9f61502de01"
-
-[[projects]]
-  digest = "1:6009479b58676271e2b1775f921eec20a784943972f55c6b0b02682f3d9e5034"
-  name = "google.golang.org/grpc"
-  packages = [
-    ".",
-    "codes",
-    "credentials",
-    "grpclog",
-    "internal",
-    "metadata",
-    "naming",
-    "peer",
-    "transport",
-  ]
-  pruneopts = "UT"
-  revision = "777daa17ff9b5daef1cfdf915088a2ada3332bf0"
-  version = "v1.0.4"
 
 [[projects]]
   digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
@@ -165,9 +96,6 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/coreos/fleet/log",
-    "github.com/coreos/fleet/pkg",
-    "github.com/coreos/fleet/protobuf",
     "github.com/coreos/go-systemd/unit",
     "github.com/labstack/gommon/log",
     "github.com/stretchr/testify/assert",

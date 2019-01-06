@@ -1,0 +1,9 @@
+[Unit]
+Description=Test timer
+Documentation=https://git.colofoo.net/fleet/test
+
+[Timer]
+OnCalendar=*-*-* 6:00:00
+
+[X-Fleet]
+Global=true

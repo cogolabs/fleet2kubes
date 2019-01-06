@@ -73,3 +73,20 @@ func TestYAML(t *testing.T) {
 
 	assert.Equal(t, expected, output.String())
 }
+
+func TestParseSchedule(t *testing.T) {
+	tests := []struct {
+		schedule string
+		expected string
+	}{
+		{"14:35", "35 14 * * *"},
+		{"Fri 6:*", "* 6 * * 5"},
+		{"*-*-* *:22", "22 * * * *"},
+		{"Tue 2019-01-15 2:44", "44 2 15 1 2"},
+	}
+
+	for _, tt := range tests {
+		schedule := parseSchedule(tt.schedule)
+		assert.Equal(t, tt.expected, schedule, "For: %s", tt.schedule)
+	}
+}
