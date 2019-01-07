@@ -105,7 +105,7 @@ func TestCronJob(t *testing.T) {
 	output := bytes.NewBufferString("")
 	env := map[string]string{"FOO": "BAR"}
 	annotations := Annotations{"description": "A test cron job", "documentation": "http://git.colofoo.net/fleet/test3"}
-	cj := NewCronJob("test3", "*-01-* 07:*", "cleanup", []string{"/bin/cleanup", "-f"}, env, annotations)
+	cj := NewCronJob("test3", "*-01-* 07:*", "Forbid", "OnFailure", "cleanup", []string{"/bin/cleanup", "-f"}, env, annotations)
 	err := yaml.NewEncoder(output).Encode(cj)
 	assert.NoError(t, err)
 	assert.Equal(t, expectedCronJob, output.String())

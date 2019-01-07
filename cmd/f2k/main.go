@@ -19,8 +19,12 @@ import (
 var (
 	name     = flag.String("name", "", "name to use for the label")
 	port     = flag.Int("port", 80, "expose this port")
-	replicas = flag.Int("n", 2, "replicas")
-	vlan     = flag.String("vlan", "16", "import address from this interface")
+	replicas = flag.Int("replicas", 1, "replicas")
+
+	concurrencyPolicy = flag.String("concurrencyPolicy", "Forbid", "Allow, Replace, or Forbid")
+	restartPolicy     = flag.String("restartPolicy", "OnFailure", "Always, OnFailure, or Never")
+
+	vlan = flag.String("vlan", "16", "import address from this interface")
 )
 
 func init() {
@@ -72,7 +76,8 @@ func doCronJob(filename, name string, u *unit.Unit, output io.Writer) error {
 
 	fmt.Fprintf(output, "---\n")
 	err = yaml.NewEncoder(output).Encode(
-		kubes.NewCronJob(name, schedule, u.RunImage, u.RunCommand, u.Env, annotations),
+		kubes.NewCronJob(name, schedule, *concurrencyPolicy, *restartPolicy,
+			u.RunImage, u.RunCommand, u.Env, annotations),
 	)
 	return err
 }

@@ -23,7 +23,7 @@ metadata:
   labels:
     app: test2
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: test2

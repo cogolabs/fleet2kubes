@@ -81,14 +81,16 @@ func parseSchedule(schedule string) string {
 	return strings.Join(append([]string{}, minute, hour, dayOfMonth, month, dayOfWeek), " ")
 }
 
-func NewCronJob(name, schedule, image string, command []string, env map[string]string, annotations Annotations) *CronJob {
+func NewCronJob(name, schedule, concurrencyPolicy, restartPolicy,
+	image string, command []string, env map[string]string, annotations Annotations) *CronJob {
+
 	cronJob := &CronJob{
 		APIVersion: "batch/v1beta1",
 		Kind:       "CronJob",
 	}
 	cronJob.Metadata.Name = name
 	cronJob.Metadata.Annotations = annotations
-	cronJob.Spec.ConcurrencyPolicy = "Forbid"
+	cronJob.Spec.ConcurrencyPolicy = concurrencyPolicy
 	cronJob.Spec.Schedule = parseSchedule(schedule)
 	cronJob.Spec.JobTemplate.Spec.Template.Spec.Containers = append(
 		cronJob.Spec.JobTemplate.Spec.Template.Spec.Containers,
@@ -99,7 +101,7 @@ func NewCronJob(name, schedule, image string, command []string, env map[string]s
 			Env:     newEnv(env),
 		},
 	)
-	cronJob.Spec.JobTemplate.Spec.Template.Spec.RestartPolicy = "OnFailure"
+	cronJob.Spec.JobTemplate.Spec.Template.Spec.RestartPolicy = restartPolicy
 
 	return cronJob
 }

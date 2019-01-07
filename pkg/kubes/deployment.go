@@ -32,35 +32,6 @@ type Deployment struct {
 	} `json:"spec"`
 }
 
-type Container struct {
-	Name          string   `json:"name"`
-	Image         string   `json:"image"`
-	Command       []string `json:"command"`
-	Ports         []Port   `json:"ports" yaml:"ports,omitempty"`
-	Env           Env      `json:"env" yaml:"env,omitempty"`
-	RestartPolicy string   `json:"restartPolicy,omitempty" yaml:"restartPolicy,omitempty"`
-}
-
-type Port struct {
-	ContainerPort int `json:"containerPort" yaml:"containerPort"`
-}
-
-type Option struct {
-	Name  string `json:"name"`
-	Value string `json:"value"`
-}
-
-type Env []Option
-
-func newEnv(envMap map[string]string) Env {
-	var env Env
-	for name, val := range envMap {
-		env = append(env, Option{Name: name, Value: val})
-	}
-
-	return env
-}
-
 func NewDeployment(name, image string, command []string, replicas, port int, env map[string]string) *Deployment {
 	deploy := &Deployment{
 		APIVersion: "apps/v1",
