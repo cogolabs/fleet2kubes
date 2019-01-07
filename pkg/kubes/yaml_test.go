@@ -84,6 +84,13 @@ spec:
             env:
             - name: FOO
               value: BAR
+            resources:
+              requests:
+                memory: 4Gi
+                cpu: "1.5"
+              limits:
+                memory: 16Gi
+                cpu: "4"
 `
 )
 
@@ -104,8 +111,13 @@ func TestYAML(t *testing.T) {
 func TestCronJob(t *testing.T) {
 	output := bytes.NewBufferString("")
 	env := map[string]string{"FOO": "BAR"}
+	resources := Resources{}
+	resources.Limits.Memory = "16Gi"
+	resources.Limits.CPU = "4"
+	resources.Requests.Memory = "4Gi"
+	resources.Requests.CPU = "1.5"
 	annotations := Annotations{"description": "A test cron job", "documentation": "http://git.colofoo.net/fleet/test3"}
-	cj := NewCronJob("test3", "*-01-* 07:*", "Forbid", "OnFailure", "cleanup", []string{"/bin/cleanup", "-f"}, env, annotations)
+	cj := NewCronJob("test3", "*-01-* 07:*", "Forbid", "OnFailure", "cleanup", []string{"/bin/cleanup", "-f"}, env, resources, annotations)
 	err := yaml.NewEncoder(output).Encode(cj)
 	assert.NoError(t, err)
 	assert.Equal(t, expectedCronJob, output.String())

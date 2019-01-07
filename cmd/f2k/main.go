@@ -21,6 +21,11 @@ var (
 	port     = flag.Int("port", 80, "expose this port")
 	replicas = flag.Int("replicas", 1, "replicas")
 
+	memLimit    = flag.String("mem-limit", "16Gi", "max amount of memory for the cron job")
+	cpuLimit    = flag.String("cpu-limit", "4", "max amount of CPU usage for the cron job")
+	reqMemLimit = flag.String("req-mem-limit", "4Gi", "max amount of memory for the cron job's requests")
+	reqCPULimit = flag.String("req-cpu-limit", "1.5", "max amount of CPU usage for the cron job's requests")
+
 	concurrencyPolicy = flag.String("concurrencyPolicy", "Forbid", "Allow, Replace, or Forbid")
 	restartPolicy     = flag.String("restartPolicy", "OnFailure", "Always, OnFailure, or Never")
 
@@ -74,10 +79,16 @@ func doCronJob(filename, name string, u *unit.Unit, output io.Writer) error {
 		}
 	}
 
+	resources := kubes.Resources{}
+	resources.Limits.Memory = *memLimit
+	resources.Limits.CPU = *cpuLimit
+	resources.Requests.Memory = *reqMemLimit
+	resources.Requests.CPU = *reqCPULimit
+
 	fmt.Fprintf(output, "---\n")
 	err = yaml.NewEncoder(output).Encode(
 		kubes.NewCronJob(name, schedule, *concurrencyPolicy, *restartPolicy,
-			u.RunImage, u.RunCommand, u.Env, annotations),
+			u.RunImage, u.RunCommand, u.Env, resources, annotations),
 	)
 	return err
 }

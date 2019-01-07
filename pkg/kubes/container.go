@@ -1,11 +1,12 @@
 package kubes
 
 type Container struct {
-	Name    string   `json:"name"`
-	Image   string   `json:"image"`
-	Command []string `json:"command"`
-	Ports   []Port   `json:"ports" yaml:"ports,omitempty"`
-	Env     Env      `json:"env" yaml:"env,omitempty"`
+	Name      string    `json:"name"`
+	Image     string    `json:"image"`
+	Command   []string  `json:"command"`
+	Ports     []Port    `json:"ports" yaml:"ports,omitempty"`
+	Env       Env       `json:"env" yaml:"env,omitempty"`
+	Resources Resources `json:"resources" yaml:"resources,omitempty"`
 }
 
 type Port struct {
@@ -18,6 +19,17 @@ type Option struct {
 }
 
 type Env []Option
+
+type Resources struct {
+	Requests struct {
+		Memory string `json:"memory"`
+		CPU    string `json:"cpu"`
+	} `json:"requests"`
+	Limits struct {
+		Memory string `json:"memory"`
+		CPU    string `json:"cpu"`
+	} `json:"limits"`
+}
 
 func newEnv(envMap map[string]string) Env {
 	var env Env
