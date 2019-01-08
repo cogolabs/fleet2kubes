@@ -85,9 +85,6 @@ spec:
             - name: FOO
               value: BAR
             resources:
-              requests:
-                memory: 4Gi
-                cpu: "1.5"
               limits:
                 memory: 16Gi
                 cpu: "4"
@@ -97,7 +94,7 @@ spec:
 func TestYAML(t *testing.T) {
 	output := bytes.NewBufferString("")
 	svc := NewService("test1", "1.2.3.4", 80)
-	dpl := NewDeployment("test1", "httpd", []string{"httpd", "-listen", ":80"}, 2, 80, map[string]string{"FOO": "BAR"})
+	dpl := NewDeployment("test1", "httpd", []string{"httpd", "-listen", ":80"}, 2, 80, map[string]string{"FOO": "BAR"}, Resources{})
 
 	err := yaml.NewEncoder(output).Encode(svc)
 	assert.NoError(t, err)
@@ -114,8 +111,6 @@ func TestCronJob(t *testing.T) {
 	resources := Resources{}
 	resources.Limits.Memory = "16Gi"
 	resources.Limits.CPU = "4"
-	resources.Requests.Memory = "4Gi"
-	resources.Requests.CPU = "1.5"
 	annotations := Annotations{"description": "A test cron job", "documentation": "http://git.colofoo.net/fleet/test3"}
 	cj := NewCronJob("test3", "*-01-* 07:*", "Forbid", "OnFailure", "cleanup", []string{"/bin/cleanup", "-f"}, env, resources, annotations)
 	err := yaml.NewEncoder(output).Encode(cj)
