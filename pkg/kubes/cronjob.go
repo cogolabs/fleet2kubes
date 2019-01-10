@@ -82,7 +82,7 @@ func parseSchedule(schedule string) string {
 }
 
 func NewCronJob(name, schedule, concurrencyPolicy, restartPolicy,
-	image string, command []string, env map[string]string, annotations Annotations) *CronJob {
+	image string, command []string, env map[string]string, resources Resources, annotations Annotations) *CronJob {
 
 	cronJob := &CronJob{
 		APIVersion: "batch/v1beta1",
@@ -95,10 +95,11 @@ func NewCronJob(name, schedule, concurrencyPolicy, restartPolicy,
 	cronJob.Spec.JobTemplate.Spec.Template.Spec.Containers = append(
 		cronJob.Spec.JobTemplate.Spec.Template.Spec.Containers,
 		Container{
-			Name:    name,
-			Image:   image,
-			Command: command,
-			Env:     newEnv(env),
+			Name:      name,
+			Image:     image,
+			Command:   command,
+			Env:       newEnv(env),
+			Resources: resources,
 		},
 	)
 	cronJob.Spec.JobTemplate.Spec.Template.Spec.RestartPolicy = restartPolicy

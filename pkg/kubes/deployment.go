@@ -32,7 +32,8 @@ type Deployment struct {
 	} `json:"spec"`
 }
 
-func NewDeployment(name, image string, command []string, replicas, port int, env map[string]string) *Deployment {
+func NewDeployment(name, image string, command []string, replicas, port int, env map[string]string,
+	resources Resources) *Deployment {
 	deploy := &Deployment{
 		APIVersion: "apps/v1",
 		Kind:       "Deployment",
@@ -49,11 +50,12 @@ func NewDeployment(name, image string, command []string, replicas, port int, env
 	deploy.Spec.Template.Spec.Containers = append(
 		deploy.Spec.Template.Spec.Containers,
 		Container{
-			Name:    name,
-			Image:   image,
-			Command: command,
-			Ports:   []Port{{port}},
-			Env:     newEnv(env),
+			Name:      name,
+			Image:     image,
+			Command:   command,
+			Ports:     []Port{{port}},
+			Env:       newEnv(env),
+			Resources: resources,
 		},
 	)
 	return deploy
