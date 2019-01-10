@@ -21,10 +21,10 @@ var (
 	port     = flag.Int("port", 80, "expose this port")
 	replicas = flag.Int("replicas", 1, "replicas")
 
-	memLimit    = flag.String("mem-limit", "", "max amount of memory for the cron job")
-	cpuLimit    = flag.String("cpu-limit", "", "max amount of CPU usage for the cron job")
-	reqMemLimit = flag.String("req-mem-limit", "", "max amount of memory for the cron job's requests")
-	reqCPULimit = flag.String("req-cpu-limit", "", "max amount of CPU usage for the cron job's requests")
+	memLimit   = flag.String("mem-limit", "", "max amount of memory allowed")
+	cpuLimit   = flag.String("cpu-limit", "", "max amount of CPU usage allowed")
+	memRequest = flag.String("mem-req", "", "amount of memory to initially request")
+	cpuRequest = flag.String("cpu-req", "", "amount of CPU usage to initially request")
 
 	concurrencyPolicy = flag.String("concurrencyPolicy", "Forbid", "Allow, Replace, or Forbid")
 	restartPolicy     = flag.String("restartPolicy", "OnFailure", "Always, OnFailure, or Never")
@@ -44,11 +44,11 @@ func makeResources() kubes.Resources {
 	if *cpuLimit != "" {
 		resources.Limits.CPU = *cpuLimit
 	}
-	if *reqMemLimit != "" {
-		resources.Requests.Memory = *reqMemLimit
+	if *memRequest != "" {
+		resources.Requests.Memory = *memRequest
 	}
-	if *reqCPULimit != "" {
-		resources.Requests.CPU = *reqCPULimit
+	if *cpuRequest != "" {
+		resources.Requests.CPU = *cpuRequest
 	}
 
 	return resources

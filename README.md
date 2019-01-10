@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/cogolabs/fleet2kubes.svg?branch=master)](https://travis-ci.org/cogolabs/fleet2kubes)
 [![codecov](https://codecov.io/gh/cogolabs/fleet2kubes/branch/master/graph/badge.svg)](https://codecov.io/gh/cogolabs/fleet2kubes)
-[![Maintainability](https://api.codeclimate.com/v1/badges/699f80c897e5cd1865ba/maintainability)](https://codeclimate.com/github/cogolabs/fleet2kubes/maintainability)
 [![Go Report Card](https://goreportcard.com/badge/github.com/cogolabs/fleet2kubes)](https://goreportcard.com/report/github.com/cogolabs/fleet2kubes)
+[![Maintainability](https://api.codeclimate.com/v1/badges/699f80c897e5cd1865ba/maintainability)](https://codeclimate.com/github/cogolabs/fleet2kubes/maintainability)
 
 # fleet2kubes
 
@@ -15,7 +15,7 @@ Cogo Labs adopted Docker early in 2014 and leveraged CoreOS Fleet to deploy and 
 
 The first command will install `f2k` to `~/go/bin/f2k`. For convenience, append `$GOPATH/bin` to your `$PATH`.
 
-```
+```sh
   go get -u github.com/cogolabs/fleet2kubes/cmd/f2k
 
   f2k [flags] my.service > my.yaml
