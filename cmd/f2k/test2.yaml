@@ -32,6 +32,7 @@ spec:
       labels:
         app: test2
     spec:
+      dnsPolicy: Default
       dnsConfig:
         options:
         - name: ndots

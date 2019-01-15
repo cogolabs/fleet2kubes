@@ -13,6 +13,7 @@ spec:
     spec:
       template:
         spec:
+          dnsPolicy: Default
           restartPolicy: OnFailure
           containers:
           - name: test4
