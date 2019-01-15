@@ -32,6 +32,7 @@ type CronJob struct {
 			Spec struct {
 				Template struct {
 					Spec struct {
+						DNSPolicy     string      `json:"dnsPolicy" yaml:"dnsPolicy"`
 						RestartPolicy string      `json:"restartPolicy" yaml:"restartPolicy"`
 						Containers    []Container `json:"containers"`
 					}
@@ -92,6 +93,7 @@ func NewCronJob(name, schedule, concurrencyPolicy, restartPolicy,
 	cronJob.Metadata.Annotations = annotations
 	cronJob.Spec.ConcurrencyPolicy = concurrencyPolicy
 	cronJob.Spec.Schedule = parseSchedule(schedule)
+	cronJob.Spec.JobTemplate.Spec.Template.Spec.DNSPolicy = "Default"
 	cronJob.Spec.JobTemplate.Spec.Template.Spec.Containers = append(
 		cronJob.Spec.JobTemplate.Spec.Template.Spec.Containers,
 		Container{

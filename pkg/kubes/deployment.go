@@ -23,6 +23,7 @@ type Deployment struct {
 				} `json:"labels"`
 			} `json:"metadata"`
 			Spec struct {
+				DNSPolicy string `json:"dnsPolicy" yaml:"dnsPolicy"`
 				DNSConfig struct {
 					Options []Option `json:"options"`
 				} `json:"dnsConfig" yaml:"dnsConfig"`
@@ -47,6 +48,7 @@ func NewDeployment(name, image string, command []string, replicas, port int, env
 		deploy.Spec.Template.Spec.DNSConfig.Options,
 		Option{"ndots", "1"},
 	)
+	deploy.Spec.Template.Spec.DNSPolicy = "Default"
 	deploy.Spec.Template.Spec.Containers = append(
 		deploy.Spec.Template.Spec.Containers,
 		Container{
