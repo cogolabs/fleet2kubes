@@ -43,6 +43,7 @@ spec:
       labels:
         app: test1
     spec:
+      dnsPolicy: Default
       dnsConfig:
         options:
         - name: ndots
@@ -74,6 +75,7 @@ spec:
     spec:
       template:
         spec:
+          dnsPolicy: Default
           restartPolicy: OnFailure
           containers:
           - name: test3
