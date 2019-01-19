@@ -2,6 +2,7 @@
 [![codecov](https://codecov.io/gh/cogolabs/fleet2kubes/branch/master/graph/badge.svg)](https://codecov.io/gh/cogolabs/fleet2kubes)
 [![Go Report Card](https://goreportcard.com/badge/github.com/cogolabs/fleet2kubes)](https://goreportcard.com/report/github.com/cogolabs/fleet2kubes)
 [![Maintainability](https://api.codeclimate.com/v1/badges/699f80c897e5cd1865ba/maintainability)](https://codeclimate.com/github/cogolabs/fleet2kubes/maintainability)
+[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
 # fleet2kubes
 
